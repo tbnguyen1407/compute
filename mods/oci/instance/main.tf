@@ -16,6 +16,7 @@ resource "oci_core_instance" "ins" {
 
   ## optional
   display_name = format("%s%d", var.instance_name_prefix, count.index)
+  state        = var.instance_state
   source_details {
     ## required
     source_id   = var.instance_bootdisk["image"]

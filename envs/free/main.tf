@@ -4,15 +4,15 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.87.0"
+      version = "5.87.0"
     }
     google = {
       source  = "hashicorp/google"
-      version = ">= 6.20.0"
+      version = "6.21.0"
     }
     oci = {
       source  = "oracle/oci"
-      version = ">= 6.26.0"
+      version = "6.27.0"
     }
   }
 }
@@ -82,7 +82,7 @@ module "module_gcp_instance" {
   instance_bootdisk = {
     image = "ubuntu-os-cloud/ubuntu-2404-lts-amd64"
     type  = "pd-standard"
-    size  = 25
+    size  = 28
   }
   instance_network_tags = [
     "egress-allow-all",
@@ -155,7 +155,7 @@ module "module_oci_instance_arm" {
     ram  = 12
   }
   instance_bootdisk = {
-    image = "ocid1.image.oc1.ap-singapore-1.aaaaaaaasfd4dtdnlhdzmhourzf5xvejewlubymjbqvph54xcekmlrk6pw7q"
+    image = "ocid1.image.oc1.ap-singapore-1.aaaaaaaanwjetwn6ubol5lq2xvmwvglv6l26ad6lck4esnmlraawg4wderka" ## Oracle Linux 9.5 (aarch)
     size  = 50
   }
   security_group_ids  = [module.module_oci_security.security_group_id]

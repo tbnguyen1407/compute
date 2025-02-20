@@ -47,6 +47,11 @@ variable "instance_bootdisk" {
   }
 }
 
+variable "instance_state" {
+  type    = string
+  default = "RUNNING"
+}
+
 variable "instance_name_prefix" {
   type    = string
   default = "ins"
