@@ -84,13 +84,8 @@ module "module_gcp_instance" {
     type  = "pd-standard"
     size  = 28
   }
-  instance_network_tags = [
-    "egress-allow-all",
-    "ingress-allow-http",
-    "ingress-allow-icmp",
-    "ingress-allow-ssh",
-  ]
-  ssh_authorized_keys = var.ssh_authorized_keys
+  instance_network_tags = [for rule in var.security_rules : rule.name]
+  ssh_authorized_keys   = var.ssh_authorized_keys
 }
 
 ## oci
