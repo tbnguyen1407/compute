@@ -4,15 +4,15 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.87.0"
+      version = "5.89.0"
     }
     google = {
       source  = "hashicorp/google"
-      version = "6.21.0"
+      version = "6.24.0"
     }
     oci = {
       source  = "oracle/oci"
-      version = "6.27.0"
+      version = "6.28.0"
     }
   }
 }
