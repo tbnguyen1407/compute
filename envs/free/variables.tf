@@ -1,6 +1,6 @@
 ## aws provider
-variable "provider_aws_config_file" {}
-variable "provider_aws_credentials_file" {}
+#variable "provider_aws_config_file" {}
+#variable "provider_aws_credentials_file" {}
 
 ## google provider
 variable "provider_google_project" {}

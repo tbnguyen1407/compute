@@ -1,11 +1,9 @@
 terraform {
-  #backend "consul" {}
-
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "5.90.1"
-    }
+    #aws = {
+    #  source  = "hashicorp/aws"
+    #  version = "5.91.0"
+    #}
     google = {
       source  = "hashicorp/google"
       version = "6.25.0"
