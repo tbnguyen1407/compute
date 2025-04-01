@@ -1,3 +1,4 @@
+*.hcl    text eol=lf
 *.json   text oel=lf
 *.md     text eol=lf
 *.pem    text eol=lf
