@@ -6,7 +6,7 @@ terraform {
     #}
     google = {
       source  = "hashicorp/google"
-      version = "7.12.0"
+      version = "7.13.0"
     }
     oci = {
       source  = "oracle/oci"
