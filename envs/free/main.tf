@@ -10,7 +10,7 @@ terraform {
     }
     oci = {
       source  = "oracle/oci"
-      version = "8.9.0"
+      version = "8.12.0"
     }
   }
 }
