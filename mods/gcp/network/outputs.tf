@@ -5,3 +5,7 @@ output "network_name" {
 output "subnet_name" {
   value = google_compute_subnetwork.subnet0.self_link
 }
+
+output "subnet_cidr" {
+  value = google_compute_subnetwork.subnet0.ip_cidr_range
+}

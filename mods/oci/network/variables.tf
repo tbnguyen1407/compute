@@ -17,7 +17,7 @@ variable "network_name" {
 
 variable "network_cidr_blocks" {
   type    = list(string)
-  default = ["10.0.0.0/16"]
+  default = []
 }
 
 variable "subnet_name" {
@@ -27,5 +27,5 @@ variable "subnet_name" {
 
 variable "subnet_cidr_block" {
   type    = string
-  default = "10.0.1.0/24"
+  default = ""
 }

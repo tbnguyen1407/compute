@@ -16,21 +16,36 @@ locals {
   }
 }
 
-resource "google_compute_firewall" "fw" {
-  for_each = { for rule in var.rules : rule.name => rule }
+resource "google_compute_firewall" "ingress" {
+  for_each = var.ingress_rules
 
   ## required
-  name    = each.value.name
+  name    = each.key
   network = var.network_name
 
   ## optional
-  direction = each.value.direction
+  direction = "INGRESS"
   allow {
     protocol = local.m_protocols[each.value.protocol]
-    ports    = contains(["TCP", "UDP"], each.value.protocol) ? [each.value.dst_port] : null
+    ports    = contains(["TCP", "UDP"], each.value.protocol) ? [each.value.port] : null
   }
-  source_ranges      = each.value.direction == "INGRESS" ? [each.value.src] : null
-  destination_ranges = each.value.direction == "EGRESS" ? [each.value.dst] : null
+  destination_ranges = [each.value.dst]
+  source_ranges      = [each.value.src]
+}
 
-  target_tags = [each.value.name]
+resource "google_compute_firewall" "egress" {
+  for_each = var.egress_rules
+
+  ## required
+  name    = each.key
+  network = var.network_name
+
+  ## optional
+  direction = "INGRESS"
+  allow {
+    protocol = local.m_protocols[each.value.protocol]
+    ports    = contains(["TCP", "UDP"], each.value.protocol) ? [each.value.port] : null
+  }
+  destination_ranges = [each.value.dst]
+  source_ranges      = [each.value.src]
 }

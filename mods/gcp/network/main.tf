@@ -21,5 +21,5 @@ resource "google_compute_subnetwork" "subnet0" {
   network = google_compute_network.net0.id
 
   ## optional
-  ip_cidr_range = var.subnet_cidr_block
+  ip_cidr_range = var.subnet_cidr
 }

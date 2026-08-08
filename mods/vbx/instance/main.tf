@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     vbx = {
-      source  = "terra-farm/virtualbox"
+      source = "terra-farm/virtualbox"
     }
   }
 }

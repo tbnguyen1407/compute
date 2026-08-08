@@ -9,3 +9,7 @@ output "network_id" {
 output "subnet_id" {
   value = oci_core_subnet.subnet0.id
 }
+
+output "subnet_cidr" {
+  value = oci_core_subnet.subnet0.cidr_block
+}

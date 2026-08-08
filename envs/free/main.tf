@@ -1,9 +1,5 @@
 terraform {
   required_providers {
-    #aws = {
-    #  source  = "hashicorp/aws"
-    #  version = "5.96.0"
-    #}
     google = {
       source  = "hashicorp/google"
       version = "7.43.0"
@@ -15,41 +11,12 @@ terraform {
   }
 }
 
-## aws
-# module "module_aws_network" {
-#   source = "../../mods/aws/network"
-# }
+provider "google" {
+  project = "prj0-443107"
+}
 
-# module "module_aws_security" {
-#   source = "../../mods/aws/security"
-
-#   ## required
-#   network_id = module.module_aws_network.network_id
-
-#   ## optional
-#   rules = var.security_rules
-# }
-
-# module "module_aws_instance" {
-#   source = "../../mods/aws/instance"
-
-#   ## required
-#   network_id = module.module_aws_network.network_id
-#   subnet_id  = module.module_aws_network.subnet_id
-
-#   ## optional
-#   instance_count = 1
-#   instance_shape = {
-#     type = "t4g.small"
-#   }
-#   instance_bootdisk = {
-#     image = "ami-023d6c5b3a28a2d1d"
-#     type  = "gp3"
-#     size  = 30
-#   }
-#   security_group_ids  = [module.module_aws_security.security_group_id]
-#   ssh_authorized_keys = var.ssh_authorized_keys
-# }
+provider "oci" {
+}
 
 ## gcp
 module "module_gcp_network" {
@@ -63,7 +30,26 @@ module "module_gcp_security" {
   network_name = module.module_gcp_network.network_name
 
   ## optional
-  rules = var.security_rules
+  ingress_rules = {
+    "ingress-allow-ssh" = {
+      src      = "0.0.0.0/0"
+      dst      = module.module_gcp_network.subnet_cidr
+      port     = 22
+      protocol = "TCP"
+    }
+    "ingress-allow-icmp" = {
+      src      = "0.0.0.0/0"
+      dst      = module.module_gcp_network.subnet_cidr
+      protocol = "ICMP"
+    }
+  }
+  egress_rules = {
+    "egress-allow-all" = {
+      src      = module.module_gcp_network.subnet_cidr
+      dst      = "0.0.0.0/0"
+      protocol = "ALL"
+    }
+  }
 }
 
 module "module_gcp_instance" {
@@ -82,8 +68,7 @@ module "module_gcp_instance" {
     type  = "pd-standard"
     size  = 28
   }
-  instance_network_tags = [for rule in var.security_rules : rule.name]
-  ssh_authorized_keys   = var.ssh_authorized_keys
+  ssh_authorized_keys = var.ssh_authorized_keys
 }
 
 ## oci
@@ -92,6 +77,10 @@ module "module_oci_network" {
 
   ## required
   tenancy_id = var.provider_oci_tenancy_id
+
+  ## optional
+  network_cidr_blocks = ["10.0.0.0/16"]
+  subnet_cidr_block   = "10.0.1.0/24"
 }
 
 module "module_oci_security" {
@@ -102,7 +91,23 @@ module "module_oci_security" {
   network_id     = module.module_oci_network.network_id
 
   ## optional
-  rules = var.security_rules
+  ingress_rules = {
+    "ingress-allow-ssh" = {
+      src      = "0.0.0.0/0"
+      port     = 22
+      protocol = "TCP"
+    }
+    "ingress-allow-icmp" = {
+      src      = "0.0.0.0/0"
+      protocol = "ICMP"
+    }
+  }
+  egress_rules = {
+    "egress-allow-all" = {
+      dst      = "0.0.0.0/0"
+      protocol = "ALL"
+    }
+  }
 }
 
 module "module_oci_instance_amd" {
@@ -144,8 +149,8 @@ module "module_oci_instance_arm" {
   instance_name_prefix = "arm"
   instance_shape = {
     type = "VM.Standard.A1.Flex"
-    cpu  = 2
-    ram  = 12
+    cpu  = 1
+    ram  = 6
   }
   instance_bootdisk = {
     image = "ocid1.image.oc1.ap-singapore-1.aaaaaaaanwjetwn6ubol5lq2xvmwvglv6l26ad6lck4esnmlraawg4wderka" ## Oracle Linux 9.5 (aarch)

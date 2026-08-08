@@ -1,3 +1,16 @@
-.terraform/
-credentials/
-terraform.tfvars
+# ignore everything except folders
+*
+!*/
+
+## allow
+!/.vscode/**
+!/envs/**
+!/mods/**
+!/.env
+!/.gitignore
+!/.gitattributes
+!/.tool-versions
+!/README.md
+
+## ignore
+.terraform
