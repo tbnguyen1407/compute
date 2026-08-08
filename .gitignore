@@ -3,7 +3,6 @@
 !*/
 
 ## allow
-!/.vscode/**
 !/envs/**
 !/mods/**
 !/.env
